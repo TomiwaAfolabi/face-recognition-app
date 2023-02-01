@@ -1,10 +1,17 @@
-import "./App.css";
-import Category from "./components/category-list/category-container.component";
+import { Routes, Route } from "react-router-dom";
+import Home from "./routes/home/home.component";
+import SignIn from "./routes/sign-in/sign-in.component";
+import Navigation from "./routes/navigation/navigation.component";
 
 function App() {
   return (
     <div>
-      <Category />
+      <Routes>
+        <Route path="/" element={<Navigation />}>
+          <Route index element={<Home />} />
+          <Route path="sign-in" element={<SignIn />} />
+        </Route>
+      </Routes>
     </div>
   );
 }
