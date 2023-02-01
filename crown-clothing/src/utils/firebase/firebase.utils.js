@@ -1,6 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -33,7 +39,7 @@ export const createUserDocument = async (userAuth) => {
     const { displayName, email } = userAuth;
     const createdAt = new Date();
     try {
-      const newDoc = await setDoc(docRef, {
+      await setDoc(docRef, {
         displayName,
         email,
         createdAt,
@@ -41,5 +47,30 @@ export const createUserDocument = async (userAuth) => {
     } catch {}
   } else {
     console.log(Error);
+  }
+};
+export const createUserwithemailandpassword = async (email, password) => {
+  console.log(email);
+  if (!email || !password) return;
+
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+export const SignInUser = async (email, password) => {
+  if (!email || !password) return;
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    alert("user successfully signed in ");
+  } catch (error) {
+    switch (error.code) {
+      case "auth/wrong-password":
+        alert("incorrect password for email");
+        break;
+      case "auth/user-not-found":
+        alert("no user associated with this email");
+        break;
+      default:
+        console.log(error);
+    }
   }
 };
