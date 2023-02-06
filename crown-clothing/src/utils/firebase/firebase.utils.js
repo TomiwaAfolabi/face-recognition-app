@@ -6,6 +6,7 @@ import {
   signInWithPopup,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -59,8 +60,9 @@ export const createUserwithemailandpassword = async (email, password) => {
 export const SignInUser = async (email, password) => {
   if (!email || !password) return;
   try {
-    await signInWithEmailAndPassword(auth, email, password);
+    const { user } = await signInWithEmailAndPassword(auth, email, password);
     alert("user successfully signed in ");
+    return user;
   } catch (error) {
     switch (error.code) {
       case "auth/wrong-password":
@@ -74,3 +76,5 @@ export const SignInUser = async (email, password) => {
     }
   }
 };
+
+export const SignUserOut = async () => await signOut(auth);

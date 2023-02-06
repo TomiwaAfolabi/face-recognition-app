@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import FormInput from "../form/form-input/form-input.component";
 import Button from "../form/custom-button/button.component";
 import {
@@ -7,6 +7,7 @@ import {
   signInwithGooglePopup,
 } from "../../utils/firebase/firebase.utils";
 import "./sign-up.styles.scss";
+import { UserContext } from "../../contexts/user.context";
 const SignUp = () => {
   const defaultFields = {
     displayName: "",
@@ -17,6 +18,7 @@ const SignUp = () => {
 
   const [formFields, setFormFields] = useState(defaultFields);
   const { displayName, email, password, ConfirmPassword } = formFields;
+  const { setCurrentUser } = useContext(UserContext);
 
   const onHandle = (event) => {
     const { name, value } = event.target;
@@ -24,17 +26,22 @@ const SignUp = () => {
   };
 
   const RegisterUser = async (event) => {
+    if (password !== ConfirmPassword) {
+      alert("password does not match");
+    }
     event.preventDefault();
     if (password === ConfirmPassword) {
       const { user } = await createUserwithemailandpassword(email, password);
       if (user) {
         await createUserDocument({ ...user, displayName: displayName });
+        setCurrentUser(user);
       }
     }
   };
 
   const logGoogleUser = async () => {
     const { user } = await signInwithGooglePopup();
+
     await createUserDocument(user);
   };
 

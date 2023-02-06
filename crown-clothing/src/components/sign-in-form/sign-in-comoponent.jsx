@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import FormInput from "../form/form-input/form-input.component";
 import Button from "../form/custom-button/button.component";
 import "./sign-in.styles.scss";
 import { SignInUser } from "../../utils/firebase/firebase.utils";
+import { UserContext } from "../../contexts/user.context";
 
 const defaultFields = {
   email: "",
@@ -12,10 +13,15 @@ const defaultFields = {
 const SignIn = () => {
   const [formFields, setFormFields] = useState(defaultFields);
   const { email, password } = formFields;
+  const { setCurrentUser } = useContext(UserContext);
 
   const Login = async (event) => {
     event.preventDefault();
-    await SignInUser(email, password);
+    try {
+      const user = await SignInUser(email, password);
+
+      setCurrentUser(user);
+    } catch {}
   };
   const onHandle = (event) => {
     const { name, value } = event.target;
