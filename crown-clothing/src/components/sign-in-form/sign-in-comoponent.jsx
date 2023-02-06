@@ -1,9 +1,11 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import FormInput from "../form/form-input/form-input.component";
 import Button from "../form/custom-button/button.component";
 import "./sign-in.styles.scss";
-import { SignInUser } from "../../utils/firebase/firebase.utils";
-import { UserContext } from "../../contexts/user.context";
+import {
+  SignInUser,
+  signInwithGooglePopup,
+} from "../../utils/firebase/firebase.utils";
 
 const defaultFields = {
   email: "",
@@ -13,19 +15,20 @@ const defaultFields = {
 const SignIn = () => {
   const [formFields, setFormFields] = useState(defaultFields);
   const { email, password } = formFields;
-  const { setCurrentUser } = useContext(UserContext);
 
   const Login = async (event) => {
     event.preventDefault();
     try {
-      const user = await SignInUser(email, password);
-
-      setCurrentUser(user);
+      await SignInUser(email, password);
     } catch {}
   };
   const onHandle = (event) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
+  };
+  const logGoogleUser = async (event) => {
+    event.preventDefault();
+    await signInwithGooglePopup();
   };
   return (
     <div className="sign-in-container">
@@ -47,7 +50,12 @@ const SignIn = () => {
           value={password}
           required
         />
-        <Button onClick={Login}>Sign In</Button>
+        <div className="btn-container">
+          <Button onClick={Login}>Sign In</Button>
+          <Button buttonType="google" onClick={logGoogleUser}>
+            Sign in with google
+          </Button>
+        </div>
       </form>
     </div>
   );
