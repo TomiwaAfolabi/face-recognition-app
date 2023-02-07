@@ -22,14 +22,17 @@ const SignIn = () => {
       await SignInUser(email, password);
     } catch {}
   };
+
   const onHandle = (event) => {
     const { name, value } = event.target;
     setFormFields({ ...formFields, [name]: value });
   };
+
   const logGoogleUser = async (event) => {
     event.preventDefault();
     await signInwithGooglePopup();
   };
+
   return (
     <div className="sign-in-container">
       <h2>Sign In </h2>
