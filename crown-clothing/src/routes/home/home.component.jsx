@@ -1,8 +1,8 @@
-import Category from "../../components/category-list/category-container.component";
+import Directory from "../../components/directory-list/directory-container.component";
 function Home() {
   return (
     <div>
-      <Category />
+      <Directory />
     </div>
   );
 }
