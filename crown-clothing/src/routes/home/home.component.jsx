@@ -1,4 +1,4 @@
-import Directory from "../../components/directory-list/directory-container.component";
+import Directory from "../../components/directories-list/directory-container.component";
 function Home() {
   return (
     <div>
