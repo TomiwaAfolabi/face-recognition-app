@@ -1,11 +1,42 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import {
+  onAuthStateChangeListener,
+  createUserDocument,
+  getCategoriesandDocuments,
+} from "./utils/firebase/firebase.utils";
 import { Routes, Route } from "react-router-dom";
+
 import Home from "./routes/home/home.component";
 import UserAuth from "./routes/user-auth/user-auth.component";
 import Navigation from "./routes/navigation/navigation.component";
 import Shop from "./routes/shop/shop.component";
 import Checkout from "./routes/checkout/checkout-page.component";
+import { setCurrentUser } from "./store/user/user-action";
+import { setcategoriesMap } from "./store/categories/categories-action";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    onAuthStateChangeListener(async (user) => {
+      if (user) {
+        await createUserDocument(user);
+      }
+
+      dispatch(setCurrentUser(user));
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    const getcategoryMapData = async () => {
+      const categoryMap = await getCategoriesandDocuments();
+
+      dispatch(setcategoriesMap(categoryMap));
+    };
+    getcategoryMapData();
+  }, [dispatch]);
+
   return (
     <div>
       <Routes>
