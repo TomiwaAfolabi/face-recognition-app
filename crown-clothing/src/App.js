@@ -13,7 +13,7 @@ import Navigation from "./routes/navigation/navigation.component";
 import Shop from "./routes/shop/shop.component";
 import Checkout from "./routes/checkout/checkout-page.component";
 import { setCurrentUser } from "./store/user/user-action";
-import { setcategoriesMap } from "./store/categories/categories-action";
+import { setcategories } from "./store/categories/categories-action";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ function App() {
     const getcategoryMapData = async () => {
       const categoryMap = await getCategoriesandDocuments();
 
-      dispatch(setcategoriesMap(categoryMap));
+      dispatch(setcategories(categoryMap));
     };
     getcategoryMapData();
   }, [dispatch]);
