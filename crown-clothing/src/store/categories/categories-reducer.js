@@ -12,7 +12,7 @@ export const CategoriesReducer = (
     case CATEGORIES_TYPES.SET_CATEGORIES:
       return {
         ...state,
-        Categories: payload,
+        categories: payload,
       };
     default:
       return state;
