@@ -1,7 +1,7 @@
 import { CATEGORIES_TYPES } from "./categories-types";
 
 const INITIAL_CATEGORIES_TYPE = {
-  CatgoriesMap: {},
+  categories: [],
 };
 export const CategoriesReducer = (
   state = INITIAL_CATEGORIES_TYPE,
