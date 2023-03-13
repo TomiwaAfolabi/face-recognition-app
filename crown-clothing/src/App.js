@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import {
   onAuthStateChangeListener,
   createUserDocument,
-  getCategoriesandDocuments,
 } from "./utils/firebase/firebase.utils";
 import { Routes, Route } from "react-router-dom";
 
@@ -13,7 +12,7 @@ import Navigation from "./routes/navigation/navigation.component";
 import Shop from "./routes/shop/shop.component";
 import Checkout from "./routes/checkout/checkout-page.component";
 import { setCurrentUser } from "./store/user/user-action";
-import { setcategories } from "./store/categories/categories-action";
+import { fetchCategoriesAsync } from "./store/categories/categories-action";
 
 function App() {
   const dispatch = useDispatch();
@@ -29,12 +28,7 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    const getcategoryMapData = async () => {
-      const categoryMap = await getCategoriesandDocuments();
-
-      dispatch(setcategories(categoryMap));
-    };
-    getcategoryMapData();
+    dispatch(fetchCategoriesAsync());
   }, [dispatch]);
 
   return (
