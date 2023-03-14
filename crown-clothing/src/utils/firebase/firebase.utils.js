@@ -85,6 +85,7 @@ export const createUserDocument = async (userAuth) => {
   } else {
     console.log(Error);
   }
+  return docSnap;
 };
 export const createUserwithemailandpassword = async (email, password) => {
   console.log(email);
@@ -116,3 +117,16 @@ export const SignInUser = async (email, password) => {
 export const SignUserOut = async () => await signOut(auth);
 export const onAuthStateChangeListener = (callback) =>
   onAuthStateChanged(auth, callback);
+
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        unsubscribe();
+        resolve(userAuth);
+      },
+      reject
+    );
+  });
+};

@@ -1,9 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import {
-  onAuthStateChangeListener,
-  createUserDocument,
-} from "./utils/firebase/firebase.utils";
+
 import { Routes, Route } from "react-router-dom";
 
 import Home from "./routes/home/home.component";
@@ -11,24 +8,17 @@ import UserAuth from "./routes/user-auth/user-auth.component";
 import Navigation from "./routes/navigation/navigation.component";
 import Shop from "./routes/shop/shop.component";
 import Checkout from "./routes/checkout/checkout-page.component";
-import { setCurrentUser } from "./store/user/user-action";
-import { fetchCategoriesAsync } from "./store/categories/categories-action";
-
+import { checkUserSession } from "./store/user/user-action";
+import { fetchCategoriesStart } from "./store/categories/categories-action";
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    onAuthStateChangeListener(async (user) => {
-      if (user) {
-        await createUserDocument(user);
-      }
-
-      dispatch(setCurrentUser(user));
-    });
+    dispatch(checkUserSession());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchCategoriesAsync());
+    dispatch(fetchCategoriesStart());
   }, [dispatch]);
 
   return (
