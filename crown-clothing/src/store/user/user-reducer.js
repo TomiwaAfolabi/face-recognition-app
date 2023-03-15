@@ -26,7 +26,7 @@ export const UserReducer = (state = INITIAL_TYPE, action) => {
     case USER_TYPES.SIGN_USER_OUT:
       return {
         ...state,
-        currentUser: payload,
+        currentUser: null,
       };
     case USER_TYPES.SIGN_UP_START:
       return {
