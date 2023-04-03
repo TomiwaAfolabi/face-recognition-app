@@ -88,7 +88,6 @@ export const createUserDocument = async (userAuth) => {
   return docSnap;
 };
 export const createUserwithemailandpassword = async (email, password) => {
-  console.log(email);
   if (!email || !password) return;
 
   return await createUserWithEmailAndPassword(auth, email, password);
